@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ personal.name }} - Resume</title>
+  <link rel="stylesheet" href="resume.css">
+</head>
+<body>
+  <div class="resume-container">
+    <header class="header">
+      <h1 class="name">{{ personal.name }}</h1>
+      <div class="contact">
+        <span>{{ personal.email }}</span> ·
+        <span>{{ personal.phone }}</span> ·
+        <span>{{ personal.location }}</span> ·
+        <a href="{{ personal.linkedin }}" target="_blank">LinkedIn</a> ·
+        <a href="{{ personal.github }}" target="_blank">GitHub</a>
+      </div>
+    </header>
+
+    {% if summary %}
+    <section class="section">
+      <h2 class="section-title">PROFESSIONAL SUMMARY</h2>
+      <p class="summary-text">{{ summary }}</p>
+    </section>
+    {% endif %}
+
+    {% if education %}
+    <section class="section">
+      <h2 class="section-title">EDUCATION</h2>
+      {% for edu in education %}
+      <div class="entry">
+        <div class="entry-header">
+          <span class="entry-main"><b>{{ edu.institution }}</b> — {{ edu.degree }} in {{ edu.field }}</span>
+          <span class="entry-meta">{{ edu.start }} – {{ edu.end }} | {{ edu.location }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if experience %}
+    <section class="section">
+      <h2 class="section-title">EXPERIENCE</h2>
+      {% for exp in experience %}
+      <div class="entry">
+        <div class="entry-header">
+          <span class="entry-main"><b>{{ exp.company }}</b> — <i>{{ exp.title }}</i></span>
+          <span class="entry-meta">{{ exp.start }} – {{ exp.end }} | {{ exp.location }}</span>
+        </div>
+        <ul class="bullet-list">
+          {% for b in exp.bullets %}
+          <li>{{ b.text if b.text is defined else b }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if projects %}
+    <section class="section">
+      <h2 class="section-title">PROJECTS</h2>
+      {% for proj in projects %}
+      <div class="entry">
+        <div class="entry-header">
+          <span class="entry-main"><b>{{ proj.name }}</b> {% if proj.tech %}| <i>{{ proj.tech|join(', ') }}</i>{% endif %}</span>
+          {% if proj.award %}<span class="entry-badge">{{ proj.award }}</span>{% endif %}
+        </div>
+        <ul class="bullet-list">
+          {% for b in proj.bullets %}
+          <li>{{ b.text if b.text is defined else b }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if skills %}
+    <section class="section">
+      <h2 class="section-title">TECHNICAL SKILLS</h2>
+      <div class="skills-grid">
+        {% for cat, items in skills.items() %}
+        {% if items and cat != 'source' %}
+        <div class="skill-row">
+          <b class="skill-cat">{{ cat|replace('_', ' ')|capitalize }}:</b>
+          <span class="skill-items">{{ items|join(', ') }}</span>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if achievements %}
+    <section class="section">
+      <h2 class="section-title">HONORS & ACHIEVEMENTS</h2>
+      <ul class="bullet-list">
+        {% for ach in achievements %}
+        <li><b>{{ ach.title }}</b>{% if ach.description %} — {{ ach.description }}{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+    {% if certifications %}
+    <section class="section">
+      <h2 class="section-title">CERTIFICATIONS</h2>
+      <div class="certs-list">
+        {% for cert in certifications %}
+        <span class="cert-item">{{ cert.name }}{% if cert.issuer %} ({{ cert.issuer }}){% endif %}{% if not loop.last %} • {% endif %}</span>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  </div>
+</body>
+</html>

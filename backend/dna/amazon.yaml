@@ -1,0 +1,23 @@
+tone: leadership_principles
+summary:
+  length: [40, 60]
+  must_include: ["Grand Champion", "IEEE"]
+  emphasize: [ownership, customer_impact, delivery, operational_excellence]
+section_order: [summary, experience, skills, projects, education, achievements]
+projects:
+  bullets_per_project: 4
+  bullet_length: [16, 26]
+  action_verbs: [Owned, Delivered, Led, Scaled, Launched, Optimized]
+  star_required: true
+  emphasize_metrics: true
+experience:
+  bullets_per_experience: 5
+skills:
+  categories_order: [languages, backend, devops, databases, ai_ml]
+achievements:
+  prefer: [national, industry]
+  max_shown: 3
+special_rules:
+  grand_champion_always_in_summary: true
+  no_project_removal: true
+  min_bullets_per_project: 3

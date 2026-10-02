@@ -1,0 +1,22 @@
+You are an expert job-description parser.
+
+Extract these fields as JSON ONLY, no preamble, no markdown formatting:
+{
+  "job_title": "string",
+  "company_name": "string",
+  "required_skills": ["string"],
+  "preferred_skills": ["string"],
+  "responsibilities": ["string"],
+  "min_years_experience": null,
+  "education_requirements": ["string"],
+  "tools_technologies": ["string"],
+  "soft_skills": ["string"],
+  "action_verbs": ["string"],
+  "priority_keywords": ["string"],
+  "domain": "ai|backend|frontend|fullstack|data|research|other"
+}
+
+Job Description:
+---
+{jd_text}
+---

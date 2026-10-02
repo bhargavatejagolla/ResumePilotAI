@@ -1,0 +1,22 @@
+tone: ownership_speed
+summary:
+  length: [40, 60]
+  must_include: ["Grand Champion", "LangGraph"]
+  emphasize: [shipping_speed, ownership, breadth, end_to_end, product_impact]
+section_order: [summary, projects, skills, experience, achievements, education]
+projects:
+  bullets_per_project: 4
+  bullet_length: [14, 24]
+  action_verbs: [Shipped, Built, Deployed, Engineered, Scaled, Automated]
+  emphasize: [shipping_speed, production_readiness, cost_reduction]
+experience:
+  bullets_per_experience: 4
+skills:
+  categories_order: [languages, ai_ml, backend, devops, databases]
+achievements:
+  prefer: [national, industry]
+  max_shown: 3
+special_rules:
+  grand_champion_always_in_summary: true
+  no_project_removal: true
+  min_bullets_per_project: 3

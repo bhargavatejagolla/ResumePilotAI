@@ -1,0 +1,23 @@
+tone: engineering_collaboration
+summary:
+  length: [45, 65]
+  must_include: ["Grand Champion", "IEEE"]
+  emphasize: [collaboration, systems, reliability, cloud]
+section_order: [summary, skills, experience, projects, education, achievements]
+projects:
+  bullets_per_project: 4
+  bullet_length: [16, 26]
+  action_verbs: [Built, Collaborated, Architected, Shipped, Improved, Engineered]
+  emphasize_metrics: true
+  emphasize: [teamwork, cross_functional, reliability]
+experience:
+  bullets_per_experience: 4
+skills:
+  categories_order: [languages, backend, cloud, databases, ai_ml, devops]
+achievements:
+  prefer: [national, research]
+  max_shown: 3
+special_rules:
+  grand_champion_always_in_summary: true
+  no_project_removal: true
+  min_bullets_per_project: 3

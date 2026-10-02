@@ -1,0 +1,21 @@
+Given the company name "{company_name}" and this JD excerpt:
+---
+{jd_excerpt}
+---
+
+Classify into ONE of: google, amazon, microsoft, research, startup, generic.
+
+Rules:
+- "google" -> research-heavy, algorithmic scale (Google, DeepMind, YouTube)
+- "amazon" -> leadership principles, ownership, customer obsession
+- "microsoft" -> engineering collaboration, systems, Azure
+- "research" -> publications, novelty, academic tone
+- "startup" -> ownership, speed, breadth
+- "generic" -> anything else
+
+Return JSON ONLY:
+{
+  "company_type": "google|amazon|microsoft|research|startup|generic",
+  "confidence": 0.95,
+  "reason": "short explanation"
+}
