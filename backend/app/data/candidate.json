@@ -1,0 +1,276 @@
+{
+  "personal": {
+    "name": "Gunnam Sai Saketh Ram",
+    "email": "saisakethram.g@gmail.com",
+    "phone": "+91 7338421036",
+    "linkedin": "https://linkedin.com/in/contactsaketh",
+    "github": "https://github.com/Sak3th2004",
+    "location": "Bengaluru, India"
+  },
+  "summary": {
+    "summary": "Final-year Computer Science student (B.Tech, GITAM University, 2026) and Grand Champion of the ET GenAI Hackathon 2026 — winner of the national 1st prize among 50,000+ participants. Builder of production-grade AI, full-stack, and event-driven systems using Python, Java, and modern AI frameworks (PyTorch, LangGraph, RAG). IEEE-published author and Oracle Cloud Infrastructure certified. Strong record of leading teams, shipping working prototypes, and translating research into impact.",
+    "source": "resume:summary"
+  },
+  "education": [
+    {
+      "institution": "GITAM University",
+      "degree": "B.Tech",
+      "field": "Computer Science and Engineering",
+      "start": "2022-09",
+      "end": "2026-07",
+      "location": "Bengaluru, India",
+      "gpa": "",
+      "source": "resume:education[0]"
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp_intel",
+      "company": "Intel®",
+      "title": "Intel® Unnati Industrial Training Internship",
+      "location": "Bengaluru, India",
+      "start": "2025-05",
+      "end": "2025-07",
+      "bullets": [
+        {
+          "text": "Led a team of 3 to build an AI Image Super-Resolution pipeline using PyTorch and TensorFlow on the DIV2K dataset, applying knowledge distillation from a teacher CNN to a 483K-parameter student model.",
+          "metrics": 2,
+          "source": "resume:experience[0].bullets[0]"
+        },
+        {
+          "text": "Achieved 92.7% SSIM and 28.5 dB PSNR with real-time 1920×1080 inference, balancing accuracy against latency and parameter count.",
+          "metrics": 4,
+          "source": "resume:experience[0].bullets[1]"
+        },
+        {
+          "text": "Owned the full delivery cycle — preprocessing, training, benchmarking, and stakeholder demos — in Agile sprints with Intel mentors.",
+          "metrics": 0,
+          "source": "resume:experience[0].bullets[2]"
+        },
+        {
+          "text": "Maintained reproducible experiments and full GitHub documentation for fast iteration on architecture and loss-function changes.",
+          "metrics": 0,
+          "source": "resume:experience[0].bullets[3]"
+        }
+      ],
+      "source": "resume:experience[0]"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj_agribloom",
+      "name": "AgriBloom Agentic — AI Advisory for Indian Farmers",
+      "award": "ET GenAI Hackathon 2026 Winning Project",
+      "tech": [
+        "Python",
+        "PyTorch",
+        "EfficientNet-B4",
+        "LangGraph",
+        "Gemini Vision API",
+        "ChromaDB",
+        "RAG",
+        "Gradio"
+      ],
+      "links": {
+        "github": "https://github.com/Sak3th2004"
+      },
+      "bullets": [
+        {
+          "text": "Built a 5-agent LangGraph pipeline (Orchestrator → Vision → Knowledge → Compliance → Output) that takes a crop photo and returns disease diagnosis with treatment in 10 Indian languages.",
+          "metrics": 2,
+          "source": "resume:projects[0].bullets[0]"
+        },
+        {
+          "text": "Trained an EfficientNet-B4 classifier on 91,000+ images across 92 disease classes; added a Gemini Vision fallback for any crop outside the trained set.",
+          "metrics": 2,
+          "source": "resume:projects[0].bullets[1]"
+        },
+        {
+          "text": "Implemented a deterministic compliance engine that blocks 46 CIB&RC-banned pesticides and enforces FSSAI MRL limits, with a full audit trail per check.",
+          "metrics": 1,
+          "source": "resume:projects[0].bullets[2]"
+        },
+        {
+          "text": "Integrated an ICAR-grounded RAG knowledge base in ChromaDB for advisory retrieval, plus a fertilizer NPK calculator, KVK helpline finder, and voice/PDF report output.",
+          "metrics": 0,
+          "source": "resume:projects[0].bullets[3]"
+        }
+      ],
+      "source": "resume:projects[0]"
+    },
+    {
+      "id": "proj_zkproof",
+      "name": "ZKProofAPI — Zero-Knowledge Proof Authentication Platform",
+      "award": "",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Redis",
+        "Celery",
+        "React",
+        "Docker",
+        "secp256k1 Schnorr Proofs"
+      ],
+      "links": {
+        "github": "https://github.com/Sak3th2004"
+      },
+      "bullets": [
+        {
+          "text": "Built a production-grade SaaS platform providing ZKP authentication via REST API — Schnorr proofs on secp256k1 with sub-5ms verification, no blockchain required.",
+          "metrics": 1,
+          "source": "resume:projects[1].bullets[0]"
+        },
+        {
+          "text": "Developed full-stack infrastructure: FastAPI backend with 8 SQLAlchemy models, React developer dashboard (11 pages), Celery for async batch processing, and JavaScript + Python SDKs for 3-line client integration.",
+          "metrics": 4,
+          "source": "resume:projects[1].bullets[1]"
+        },
+        {
+          "text": "Shipped with 37 passing tests, Alembic migrations, Docker Compose deployment (API + PostgreSQL + Redis + Celery), and CI/CD via GitHub Actions — basis for the IEEE conference publication.",
+          "metrics": 1,
+          "source": "resume:projects[1].bullets[2]"
+        }
+      ],
+      "source": "resume:projects[1]"
+    },
+    {
+      "id": "proj_cloudopt",
+      "name": "AI-Enhanced Cloud Resource Optimizer",
+      "award": "",
+      "tech": [
+        "Java",
+        "Spring Boot",
+        "React",
+        "MongoDB",
+        "Docker",
+        "Pinecone"
+      ],
+      "links": {
+        "github": "https://github.com/Sak3th2004"
+      },
+      "bullets": [
+        {
+          "text": "Engineered a hybrid forecasting engine (EMA + Linear Regression + LSTM-inspired) processing 10,000+ metrics, delivering 40% simulated cost reduction via intelligent auto-scaling.",
+          "metrics": 2,
+          "source": "resume:projects[2].bullets[0]"
+        },
+        {
+          "text": "Implemented Pinecone vector search with 8-dimensional workload embeddings and cosine similarity for workload pattern classification.",
+          "metrics": 1,
+          "source": "resume:projects[2].bullets[1]"
+        },
+        {
+          "text": "Shipped a full-stack platform with 10 RESTful APIs, real-time dashboard, and one-command Docker deployment.",
+          "metrics": 1,
+          "source": "resume:projects[2].bullets[2]"
+        }
+      ],
+      "source": "resume:projects[2]"
+    }
+  ],
+  "skills": {
+    "languages": [
+      "Python",
+      "Java",
+      "SQL"
+    ],
+    "ai_ml": [
+      "PyTorch",
+      "TensorFlow",
+      "Scikit-learn",
+      "EfficientNet",
+      "Knowledge Distillation",
+      "RAG",
+      "LangGraph",
+      "Gemini Vision API",
+      "Vector Embeddings (Pinecone, ChromaDB)"
+    ],
+    "backend": [
+      "Spring Boot",
+      "FastAPI",
+      "REST APIs",
+      "React",
+      "Gradio",
+      "Streamlit"
+    ],
+    "devops": [
+      "Docker",
+      "Docker Compose",
+      "Git",
+      "GitHub",
+      "Maven",
+      "Linux CLI",
+      "Agile / Scrum"
+    ],
+    "databases": [
+      "MongoDB",
+      "MySQL",
+      "Pinecone",
+      "ChromaDB"
+    ],
+    "source": "resume:skills"
+  },
+  "achievements": [
+    {
+      "title": "Grand Champion (1st Prize) — ET GenAI Hackathon 2026",
+      "category": "national",
+      "description": "Organised by The Economic Times in partnership with Unstop (Dec 2025 – Apr 2026). Won the national 1st prize of INR 5,00,000 among 50,000+ participants for AgriBloom Agentic.",
+      "metrics": [
+        "INR 5,00,000",
+        "50,000+ participants"
+      ],
+      "links": [
+        "ET feature",
+        "ET LinkedIn post"
+      ],
+      "source": "resume:achievements[0]"
+    },
+    {
+      "title": "IEEE Conference Publication (1st Author)",
+      "category": "research",
+      "description": "\"Secure Authentication and File Integrity Verification Using Zero Knowledge Proof Cryptographic System,\" ICACKE 2026 (Feb 2026).",
+      "metrics": [],
+      "links": [
+        "Submission"
+      ],
+      "source": "resume:achievements[1]"
+    },
+    {
+      "title": "2nd Prize — IEEE Poster Presentation on Explainable AI (XAI)",
+      "category": "research",
+      "description": "Presented model interpretability techniques for transparent and trustworthy AI systems.",
+      "metrics": [],
+      "links": [
+        "LinkedIn post"
+      ],
+      "source": "resume:achievements[2]"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Oracle Cloud Infrastructure Foundations Associate",
+      "issuer": "Oracle",
+      "year": "",
+      "source": "resume:certifications[0]"
+    },
+    {
+      "name": "Intel® Unnati Industrial Training Program",
+      "issuer": "Intel",
+      "year": "2025",
+      "source": "resume:certifications[1]"
+    },
+    {
+      "name": "GitHub Foundations Certificate",
+      "issuer": "GitHub",
+      "year": "",
+      "source": "resume:certifications[2]"
+    },
+    {
+      "name": "Neo4j Certified Professional",
+      "issuer": "Neo4j",
+      "year": "",
+      "source": "resume:certifications[3]"
+    }
+  ]
+}
