@@ -1,5 +1,8 @@
 """Run: python -m scripts.smoke_test"""
 import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from app.services.groq_service import chat_json
 from app.services.embedding_service import embed_one
 from app.services.chroma_service import get_collection

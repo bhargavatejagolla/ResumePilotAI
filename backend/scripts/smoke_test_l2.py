@@ -1,5 +1,8 @@
 """Run: python -m scripts.smoke_test_l2"""
 import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from app.layers.l2_candidate import build_index, search
 from app.services.chroma_service import collection_count
 

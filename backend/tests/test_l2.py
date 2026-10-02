@@ -14,13 +14,19 @@ def indexed():
 
 def test_candidate_loads(indexed):
     c = load_candidate()
-    assert c.personal.name == "Saketh"
-    assert len(c.projects) >= 1
-    assert len(c.experience) >= 1
+    assert "Saketh" in c.personal.name
+    assert len(c.projects) == 3
+    assert len(c.experience) == 1
 
 
 def test_index_populated(indexed):
     assert collection_count() > 0, "Expected entities indexed"
+
+
+def test_project_search(indexed):
+    hits = search("agentic AI", type_filter="project", top_k=3)
+    assert len(hits) >= 1
+    assert any("AgriBloom" in h["metadata"].get("name", "") for h in hits)
 
 
 def test_scores_are_bounded(indexed):

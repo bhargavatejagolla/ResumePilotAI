@@ -6,7 +6,7 @@ from app.config import get_settings
 settings = get_settings()
 PDF = Path(settings.candidate_json_path).parent / "my_resume.pdf"
 if not PDF.exists():
-    fallback = Path("resume-saketh bro.pdf")
+    fallback = Path("resume-template.pdf")
     if fallback.exists():
         PDF = fallback
 
@@ -28,4 +28,7 @@ def test_candidate_json_structure():
     if path.exists():
         data = json.loads(path.read_text(encoding="utf-8"))
         assert "personal" in data
-        assert data["personal"]["name"] == "Saketh"
+        assert "Saketh" in data["personal"]["name"]
+        assert len(data.get("projects", [])) == 3
+        assert len(data.get("experience", [])) == 1
+        assert len(data.get("achievements", [])) >= 2
