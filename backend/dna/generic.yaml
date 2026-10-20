@@ -1,22 +1,35 @@
-tone: balanced_professional
+name: generic
+tone: balanced
+
 summary:
   length: [45, 65]
-  must_include: ["Grand Champion", "IEEE"]
-  emphasize: [impact, technical_rigor, leadership, full_lifecycle]
-section_order: [summary, education, experience, projects, skills, achievements]
+  emphasize: [achievements, skills, impact]
+
+section_order:
+  - summary
+  - skills
+  - experience
+  - projects
+  - education
+  - achievements
+  - certifications
+
 projects:
-  bullets_per_project: 4
-  bullet_length: [16, 26]
-  action_verbs: [Engineered, Developed, Architected, Led, Optimized, Deployed]
+  bullets_per_project: 3
+  bullet_length: [18, 28]
+  action_verbs: [Built, Developed, Engineered, Designed, Implemented, Optimized, Created]
   emphasize_metrics: true
+
 experience:
   bullets_per_experience: 4
+
+achievements:
+  prefer: [national, research, hackathon]
+  max_shown: 3
+
 skills:
   categories_order: [languages, ai_ml, backend, devops, databases]
-achievements:
-  prefer: [national, research]
-  max_shown: 3
+
 special_rules:
   grand_champion_always_in_summary: true
   no_project_removal: true
-  min_bullets_per_project: 3

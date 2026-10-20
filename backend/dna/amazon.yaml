@@ -1,23 +1,38 @@
+name: amazon
 tone: leadership_principles
+
 summary:
   length: [40, 60]
-  must_include: ["Grand Champion", "IEEE"]
-  emphasize: [ownership, customer_impact, delivery, operational_excellence]
-section_order: [summary, experience, skills, projects, education, achievements]
+  must_include: ["Grand Champion", "2026"]
+  emphasize: [ownership, customer_impact, delivery, scale]
+
+section_order:
+  - summary
+  - experience
+  - skills
+  - projects
+  - education
+  - achievements
+  - certifications
+
 projects:
   bullets_per_project: 4
   bullet_length: [16, 26]
-  action_verbs: [Owned, Delivered, Led, Scaled, Launched, Optimized]
+  action_verbs: [Owned, Delivered, Led, Drove, Launched, Scaled, Shipped]
   star_required: true
   emphasize_metrics: true
+  emphasize: [customer_impact, cost_savings, latency, availability]
+
 experience:
   bullets_per_experience: 5
-skills:
-  categories_order: [languages, backend, devops, databases, ai_ml]
+
 achievements:
-  prefer: [national, industry]
+  prefer: [national, leadership]
   max_shown: 3
+
+skills:
+  categories_order: [languages, backend, ai_ml, devops, databases]
+
 special_rules:
   grand_champion_always_in_summary: true
   no_project_removal: true
-  min_bullets_per_project: 3

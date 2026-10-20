@@ -1,22 +1,36 @@
-You are an expert job-description parser.
+You are a precise job-description parser.
 
-Extract these fields as JSON ONLY, no preamble, no markdown formatting:
+Convert the provided job description into structured JSON.
+
+STRICT RULES:
+1. Return ONLY valid JSON. No markdown, no code fences, no prose.
+2. Do NOT infer or invent any field.
+3. If a field is not present, omit it entirely (no nulls, no empty arrays).
+4. Skills should be atomic strings — split "Python and Java" into ["Python", "Java"].
+5. Preserve the job title and company name exactly as written.
+6. For "priority_keywords", list terms that appear 2+ times OR are emphasized (bold, in requirements list, in "must have" sections).
+7. For "action_verbs", extract every unique verb used in responsibilities (e.g. build, design, lead, ship, optimize).
+8. If the JD mentions years of experience, set min_years_experience to the lowest number.
+
+OUTPUT SCHEMA:
 {
   "job_title": "string",
   "company_name": "string",
+  "domain": "ai | backend | frontend | fullstack | data | research | other",
   "required_skills": ["string"],
   "preferred_skills": ["string"],
+  "soft_skills": ["string"],
   "responsibilities": ["string"],
-  "min_years_experience": null,
+  "min_years_experience": integer | null,
   "education_requirements": ["string"],
   "tools_technologies": ["string"],
-  "soft_skills": ["string"],
   "action_verbs": ["string"],
-  "priority_keywords": ["string"],
-  "domain": "ai|backend|frontend|fullstack|data|research|other"
+  "priority_keywords": ["string"]
 }
 
-Job Description:
+JOB DESCRIPTION:
 ---
 {jd_text}
 ---
+
+OUTPUT JSON:

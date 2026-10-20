@@ -1,6 +1,9 @@
 import os
+from pathlib import Path
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+BACKEND_DIR = Path(__file__).resolve().parent.parent
 
 
 class Settings(BaseSettings):
@@ -10,19 +13,19 @@ class Settings(BaseSettings):
     groq_max_tokens: int = 2000
 
     embedding_model: str = "all-MiniLM-L6-v2"
-    chroma_persist_dir: str = "./app/data/chroma"
-    sqlite_path: str = "./app/data/resumepilot.db"
+    chroma_persist_dir: str = str(BACKEND_DIR / "app" / "data" / "chroma")
+    sqlite_path: str = str(BACKEND_DIR / "app" / "data" / "resumepilot.db")
 
-    candidate_json_path: str = "./app/data/candidate.json"
-    prompts_dir: str = "./prompts"
-    dna_dir: str = "./dna"
-    templates_dir: str = "./templates"
+    candidate_json_path: str = str(BACKEND_DIR / "app" / "data" / "candidate.json")
+    prompts_dir: str = str(BACKEND_DIR / "prompts")
+    dna_dir: str = str(BACKEND_DIR / "dna")
+    templates_dir: str = str(BACKEND_DIR / "templates")
 
     allowed_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
     log_level: str = "INFO"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(BACKEND_DIR / ".env"),
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore"

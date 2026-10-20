@@ -1,24 +1,37 @@
+name: research
 tone: academic
+
 summary:
   length: [50, 75]
-  must_include: ["IEEE", "Grand Champion", "1st Author"]
-  emphasize: [research_interests, novelty, mathematical_methods, publications]
-section_order: [summary, education, achievements, projects, experience, skills]
+  emphasize: [research_interests, methods, advisor, publications]
+
+section_order:
+  - summary
+  - education
+  - achievements
+  - projects
+  - experience
+  - skills
+  - certifications
+
 projects:
   bullets_per_project: 4
-  bullet_length: [18, 28]
-  action_verbs: [Formulated, Researched, Published, Derived, Designed, Evaluated]
-  emphasize_metrics: true
+  bullet_length: [18, 30]
+  action_verbs: [Designed, Trained, Published, Analyzed, Implemented, Evaluated]
+  emphasize_metrics: false
   emphasize: [novelty, method, results, paper]
+
 experience:
   bullets_per_experience: 4
-skills:
-  categories_order: [ai_ml, languages, backend, databases, devops]
+
 achievements:
-  prefer: [research, publications, national]
+  prefer: [research, national]
   max_shown: 4
+
+skills:
+  categories_order: [languages, ai_ml, backend, devops, databases]
+
 special_rules:
-  ieee_publication_in_top_achievements: true
   grand_champion_always_in_summary: true
+  ieee_publication_in_top_achievements: true
   no_project_removal: true
-  min_bullets_per_project: 3

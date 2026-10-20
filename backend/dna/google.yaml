@@ -1,24 +1,39 @@
+name: google
 tone: research_heavy
+
 summary:
   length: [45, 70]
   must_include: ["Grand Champion", "IEEE", "2026"]
-  emphasize: [algorithms, scale, publications, distributed systems]
-section_order: [summary, education, experience, projects, skills, achievements]
+  emphasize: [algorithms, scale, publications, systems]
+
+section_order:
+  - summary
+  - education
+  - experience
+  - projects
+  - skills
+  - achievements
+  - certifications
+
 projects:
   bullets_per_project: 3
   bullet_length: [18, 28]
-  action_verbs: [Designed, Engineered, Trained, Published, Optimized, Architected]
+  action_verbs: [Designed, Engineered, Trained, Optimized, Published, Built, Scaled]
   emphasize_metrics: true
   emphasize_scale: true
+
 experience:
   bullets_per_experience: 4
-skills:
-  categories_order: [languages, ai_ml, backend, devops, databases]
+  star_required: true
+
 achievements:
   prefer: [research, national]
   max_shown: 3
+
+skills:
+  categories_order: [languages, ai_ml, backend, devops, databases]
+
 special_rules:
   grand_champion_always_in_summary: true
   ieee_publication_in_top_achievements: true
   no_project_removal: true
-  min_bullets_per_project: 3
