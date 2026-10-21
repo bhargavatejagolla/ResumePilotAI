@@ -73,6 +73,9 @@ def _select_experiences(
         selected.append(PlannedExperience(
             company=exp.company,
             title=exp.title,
+            start=getattr(exp, "start", "") or "",
+            end=getattr(exp, "end", "") or "",
+            location=getattr(exp, "location", "") or "",
             selected_bullets=[
                 PlannedBullet(
                     text=b["text"],

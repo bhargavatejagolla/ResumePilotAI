@@ -29,6 +29,9 @@ class PlannedProject(BaseModel):
 class PlannedExperience(BaseModel):
     company: str
     title: str
+    start: str = ""
+    end: str = ""
+    location: str = ""
     selected_bullets: List[PlannedBullet] = Field(default_factory=list)
     total_score: float = 0.0
     relevance: float = 0.0
@@ -51,4 +54,46 @@ class ResumePlan(BaseModel):
     personal: dict = Field(default_factory=dict)
 
     # ── Explainability metadata (Phase 6 consumes this) ──────
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+# ── Phase 5 Schema: Generated / Polished Resume ───────────────
+
+class RewrittenBullet(BaseModel):
+    text: str
+    original_text: str
+    source: str
+    score: float = 0.0
+    has_metric: bool = False
+    is_rewritten: bool = False
+
+
+class GeneratedProject(BaseModel):
+    name: str
+    tech: List[str] = Field(default_factory=list)
+    bullets: List[RewrittenBullet] = Field(default_factory=list)
+    award: str = ""
+    github: str = ""
+
+
+class GeneratedExperience(BaseModel):
+    company: str
+    title: str
+    start: str = ""
+    end: str = ""
+    location: str = ""
+    bullets: List[RewrittenBullet] = Field(default_factory=list)
+
+
+class GeneratedResume(BaseModel):
+    personal: dict = Field(default_factory=dict)
+    summary: str = ""
+    original_summary: str = ""
+    section_order: List[str] = Field(default_factory=list)
+    projects: List[GeneratedProject] = Field(default_factory=list)
+    experience: List[GeneratedExperience] = Field(default_factory=list)
+    skills: Dict[str, List[str]] = Field(default_factory=dict)
+    achievements: List[dict] = Field(default_factory=list)
+    certifications: List[dict] = Field(default_factory=list)
+    education: List[dict] = Field(default_factory=list)
     metadata: Dict[str, Any] = Field(default_factory=dict)
