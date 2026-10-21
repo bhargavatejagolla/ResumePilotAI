@@ -28,6 +28,8 @@ ENV/
 .chroma/
 backend/app/data/chroma/
 backend/app/data/resumepilot.db
+backend/app/data/*.pdf
+!backend/app/data/my_resume.pdf
 
 # Node / Next.js
 node_modules/

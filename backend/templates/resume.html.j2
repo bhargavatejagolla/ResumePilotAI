@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ personal.name }} - Resume</title>
+  {% if css_content %}
+  <style>
+{{ css_content }}
+  </style>
+  {% else %}
   <link rel="stylesheet" href="resume.css">
+  {% endif %}
 </head>
 <body>
   <div class="resume-container">
