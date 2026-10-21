@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { exportPdfBlob } from "@/lib/api";
+import { exportPdfBlob, ImprovementPlaybook } from "@/lib/api";
 
 interface ResumePreviewProps {
   pdfBase64?: string | null;
   htmlContent?: string | null;
   resumeData?: any;
   talkingPoints?: string[];
+  playbook?: ImprovementPlaybook | null;
 }
 
 export function ResumePreview({
@@ -15,8 +16,9 @@ export function ResumePreview({
   htmlContent,
   resumeData,
   talkingPoints = [],
+  playbook,
 }: ResumePreviewProps) {
-  const [activeTab, setActiveTab] = useState<"pdf" | "html" | "prep">("pdf");
+  const [activeTab, setActiveTab] = useState<"pdf" | "html" | "playbook" | "prep">("pdf");
   const [downloading, setDownloading] = useState(false);
 
   const handleDownload = async () => {
@@ -42,7 +44,7 @@ export function ResumePreview({
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "Gunnam_Sai_Saketh_Ram_Resume.pdf";
+      a.download = "Tailored_Resume.pdf";
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -68,7 +70,7 @@ export function ResumePreview({
                 : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
             }`}
           >
-            📄 PDF Page (1-Page Fit)
+            📄 PDF (1-Page)
           </button>
           <button
             type="button"
@@ -80,6 +82,17 @@ export function ResumePreview({
             }`}
           >
             🌐 Web View
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("playbook")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              activeTab === "playbook"
+                ? "bg-white dark:bg-zinc-700 text-blue-600 dark:text-blue-400 shadow-xs font-bold"
+                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
+            }`}
+          >
+            📅 30-Day Sprint Plan
           </button>
           <button
             type="button"
@@ -122,10 +135,10 @@ export function ResumePreview({
                   📑
                 </div>
                 <h4 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
-                  No Resume Generated Yet
+                  Ready to Synthesize
                 </h4>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                  Paste a job description on the left to synthesize Saketh's tailored, strictly 1-page PDF resume.
+                  Upload a resume or use the master profile, paste a job description, and click generate to synthesize your tailored 1-page PDF.
                 </p>
               </div>
             )}
@@ -143,6 +156,71 @@ export function ResumePreview({
             ) : (
               <div className="text-xs text-zinc-500 text-center">
                 Web preview will render when a resume is generated.
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === "playbook" && (
+          <div className="w-full h-full min-h-[500px] p-5 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-y-auto space-y-4">
+            {playbook ? (
+              <>
+                <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3">
+                  <div>
+                    <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wide">
+                      30-Day Sprint to 90%+ Interview Readiness
+                    </h3>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      Target: <b>{playbook.target_role}</b> at <b>{playbook.target_company}</b>
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold border border-blue-200 dark:border-blue-800">
+                      Current: {playbook.current_match_percentage}%
+                    </span>
+                    <span className="text-xs text-zinc-400">➔</span>
+                    <span className="text-xs px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800">
+                      Projected: {playbook.projected_match_percentage}%
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-xs text-zinc-600 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-950 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 leading-relaxed">
+                  💡 {playbook.advisor_summary}
+                </p>
+
+                <div className="space-y-3">
+                  {playbook.sprint_weeks.map((week) => (
+                    <div
+                      key={week.week_number}
+                      className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 text-xs space-y-2"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-blue-600 dark:text-blue-400">
+                          WEEK {week.week_number} — {week.title}
+                        </span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono">
+                          {week.deliverable}
+                        </span>
+                      </div>
+                      <p className="text-zinc-500 dark:text-zinc-400 text-[11px] italic">
+                        {week.focus}
+                      </p>
+                      <ul className="space-y-1 text-zinc-700 dark:text-zinc-300 text-[11px]">
+                        {week.action_items.map((action, aIdx) => (
+                          <li key={aIdx} className="flex items-start gap-1.5">
+                            <span className="text-emerald-500 font-bold">✓</span>
+                            <span>{action}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="text-xs text-zinc-500 text-center py-12">
+                Generate a resume to calculate your 30-day candidate readiness sprint plan.
               </div>
             )}
           </div>

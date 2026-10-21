@@ -1,0 +1,213 @@
+{
+  "personal": {
+    "name": "Gunnam Sai Saketh Ram",
+    "email": "saisakethram.g@gmail.com",
+    "phone": "+91 7338421036",
+    "linkedin": "https://linkedin.com/in/contactsaketh",
+    "github": "https://github.com/Sak3th2004",
+    "location": "Bengaluru, India"
+  },
+  "summary": {
+    "summary": "Final-year Computer Science student (B.Tech, GITAM University, 2026) and  Grand Champion of the ET GenAI Hackathon 2026  \u2014 winner of the national 1st prize among 50,000+ participants. Builder of production-grade AI, full-stack, and event-driven systems using Python, Java, and modern AI frameworks (PyTorch, LangGraph, RAG). IEEE-published author and Oracle Cloud Infrastructure certified. Strong record of leading teams, shipping working prototypes, and translating research into impact.",
+    "source": "resume:summary"
+  },
+  "education": [
+    {
+      "institution": "GITAM University",
+      "degree": "B.Tech",
+      "field": "Computer Science and Engineering",
+      "start": "2022-09",
+      "end": "2026-07",
+      "gpa": "",
+      "location": "Bengaluru, India",
+      "source": "resume:education[0]"
+    }
+  ],
+  "experience": [
+    {
+      "id": "",
+      "company": "Intel",
+      "title": "Unnati Industrial Training Internship",
+      "location": "Bengaluru, India",
+      "start": "2025-05",
+      "end": "2025-07",
+      "bullets": [
+        {
+          "text": "Led a team of 3 to build an AI Image Super-Resolution pipeline using PyTorch and TensorFlow on the DIV2K dataset, applying knowledge distillation from a teacher CNN to a 483K-parameter student model.",
+          "metrics": 2,
+          "source": "resume:experience[0].bullets[0]"
+        },
+        {
+          "text": "Achieved 92.7% SSIM and 28.5 dB PSNR with real-time 1920\u00d71080 inference, balancing accuracy against latency and parameter count.",
+          "metrics": 3,
+          "source": "resume:experience[0].bullets[1]"
+        },
+        {
+          "text": "Owned the full delivery cycle \u2014 preprocessing, training, benchmarking, and stakeholder demos \u2014 in Agile sprints with Intel mentors.",
+          "metrics": 0,
+          "source": "resume:experience[0].bullets[2]"
+        },
+        {
+          "text": "Maintained reproducible experiments and full GitHub documentation for fast iteration on architecture and loss-function changes.",
+          "metrics": 0,
+          "source": "resume:experience[0].bullets[3]"
+        }
+      ],
+      "source": "resume:experience[0]"
+    }
+  ],
+  "projects": [
+    {
+      "id": "",
+      "name": "AgriBloom Agentic \u2014 AI Advisory for Indian Farmers",
+      "tech": [
+        "Python",
+        "PyTorch",
+        "EfficientNet-B4",
+        "LangGraph",
+        "Gemini Vision API",
+        "ChromaDB (RAG)",
+        "Gradio"
+      ],
+      "award": "",
+      "links": {},
+      "bullets": [
+        {
+          "text": "Built a 5-agent LangGraph pipeline (Orchestrator \u2192 Vision \u2192 Knowledge \u2192 Compliance \u2192 Output) that takes a crop photo and returns disease diagnosis with treatment in 10 Indian languages.",
+          "metrics": 0,
+          "source": "resume:projects[0].bullets[0]"
+        },
+        {
+          "text": "Trained an EfficientNet-B4 classifier on 91,000+ images across 92 disease classes; added a Gemini Vision fallback for any crop outside the trained set.",
+          "metrics": 1,
+          "source": "resume:projects[0].bullets[1]"
+        },
+        {
+          "text": "Implemented a deterministic compliance engine that blocks 46 CIB&RC-banned pesticides and enforces FSSAI MRL limits, with a full audit trail per check.",
+          "metrics": 0,
+          "source": "resume:projects[0].bullets[2]"
+        },
+        {
+          "text": "Integrated an ICAR-grounded RAG knowledge base in ChromaDB for advisory retrieval, plus a fertilizer NPK calculator, KVK helpline finder, and voice/PDF report output.",
+          "metrics": 0,
+          "source": "resume:projects[0].bullets[3]"
+        }
+      ],
+      "source": "resume:projects[0]"
+    },
+    {
+      "id": "",
+      "name": "ZKProofAPI \u2014 Zero-Knowledge Proof Authentication Platform",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Redis",
+        "Celery",
+        "React",
+        "Docker",
+        "secp256k1 Schnorr Proofs"
+      ],
+      "award": "",
+      "links": {},
+      "bullets": [
+        {
+          "text": "Built a production-grade SaaS platform providing ZKP authentication via REST API \u2014 Schnorr proofs on secp256k1 with sub-5ms verification, no blockchain required.",
+          "metrics": 1,
+          "source": "resume:projects[1].bullets[0]"
+        },
+        {
+          "text": "Developed full-stack infrastructure: FastAPI backend with 8 SQLAlchemy models, React developer dashboard (11 pages), Celery for async batch processing, and JavaScript + Python SDKs for 3-line client integration.",
+          "metrics": 2,
+          "source": "resume:projects[1].bullets[1]"
+        },
+        {
+          "text": "Shipped with 37 passing tests, Alembic migrations, Docker Compose deployment (API + PostgreSQL + Redis + Celery), and CI/CD via GitHub Actions \u2014 basis for the IEEE conference publication.",
+          "metrics": 0,
+          "source": "resume:projects[1].bullets[2]"
+        }
+      ],
+      "source": "resume:projects[1]"
+    },
+    {
+      "id": "",
+      "name": "AI-Enhanced Cloud Resource Optimizer",
+      "tech": [
+        "Java",
+        "Spring Boot",
+        "React",
+        "MongoDB",
+        "Docker",
+        "Pinecone"
+      ],
+      "award": "",
+      "links": {},
+      "bullets": [
+        {
+          "text": "Engineered a hybrid forecasting engine (EMA + Linear Regression + LSTM-inspired) processing 10,000+ metrics, delivering 40% simulated cost reduction via intelligent auto-scaling.",
+          "metrics": 2,
+          "source": "resume:projects[2].bullets[0]"
+        },
+        {
+          "text": "Implemented Pinecone vector search with 8-dimensional workload embeddings and cosine similarity for workload pattern classification.",
+          "metrics": 0,
+          "source": "resume:projects[2].bullets[1]"
+        },
+        {
+          "text": "Shipped a full-stack platform with 10 RESTful APIs, real-time dashboard, and one-command Docker deployment.",
+          "metrics": 0,
+          "source": "resume:projects[2].bullets[2]"
+        }
+      ],
+      "source": "resume:projects[2]"
+    }
+  ],
+  "skills": {
+    "languages": [
+      "Python",
+      "Java",
+      "C++",
+      "SQL"
+    ],
+    "ai_ml": [
+      "Machine Learning",
+      "PyTorch",
+      "TensorFlow",
+      "LangGraph"
+    ],
+    "backend": [
+      "FastAPI",
+      "REST APIs",
+      "PostgreSQL",
+      "Redis"
+    ],
+    "devops": [
+      "Docker",
+      "Git",
+      "Linux",
+      "CI/CD"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MongoDB",
+      "ChromaDB",
+      "Pinecone"
+    ]
+  },
+  "achievements": [
+    {
+      "title": "Grand Champion (1st Prize) \u2014 ET GenAI Hackathon 2026",
+      "category": "national",
+      "description": "National 1st Prize among 50,000+ participants.",
+      "metrics": [
+        "50,000+ participants",
+        "1st Prize"
+      ],
+      "links": [],
+      "source": "resume:achievements[0]"
+    }
+  ],
+  "certifications": [],
+  "_resume_id": "bfec8d21",
+  "_updated_at": 1792584241.8038666
+}

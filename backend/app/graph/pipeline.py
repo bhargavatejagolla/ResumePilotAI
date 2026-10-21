@@ -20,6 +20,8 @@ from app.schemas.verification import VerificationResult
 
 class PipelineState(TypedDict, total=False):
     jd_text: str
+    resume_id: Optional[str]
+    variant: Optional[str]
     company_override: Optional[str]
     tone_override: Optional[str]
     reqs: Optional[JobRequirements]
@@ -34,7 +36,7 @@ class PipelineState(TypedDict, total=False):
 
 
 def node_parse_job(state: PipelineState) -> Dict[str, Any]:
-    """Step 1: Parse job description, classify company, load DNA."""
+    """Step 1: Parse job description, classify company, load DNA and apply variant."""
     jd_text = state.get("jd_text", "").strip()
     if not jd_text:
         raise ValueError("Job description cannot be empty.")
@@ -51,12 +53,27 @@ def node_parse_job(state: PipelineState) -> Dict[str, Any]:
     if tone_override:
         dna["tone"] = tone_override
 
+    # Apply variant customization (Upgrade #4)
+    variant = (state.get("variant") or "balanced").lower()
+    bullet_style = dna.setdefault("bullet_style", {})
+    if variant == "aggressive":
+        bullet_style["metric_density"] = "very_high"
+        bullet_style["min_words"] = 14
+        bullet_style["max_words"] = 24
+        dna["tone"] = f"{dna.get('tone', '')}, aggressive metrics, high impact"
+    elif variant == "conservative":
+        bullet_style["metric_density"] = "moderate"
+        bullet_style["min_words"] = 12
+        bullet_style["max_words"] = 20
+        dna["tone"] = f"{dna.get('tone', '')}, rigorous engineering, architectural clarity"
+
     return {"reqs": reqs, "dna": dna}
 
 
 def node_plan_resume(state: PipelineState) -> Dict[str, Any]:
-    """Step 2: Deterministic planning (L4) with zero hallucinations."""
-    candidate = load_candidate()
+    """Step 2: Deterministic planning (L4) for the target resume_id."""
+    resume_id = state.get("resume_id") or "saketh"
+    candidate = load_candidate(resume_id)
     reqs = state["reqs"]
     dna = state["dna"]
     plan = build_plan(candidate, reqs, dna)
@@ -73,10 +90,12 @@ def node_write_resume(state: PipelineState) -> Dict[str, Any]:
 
 
 def node_verify_resume(state: PipelineState) -> Dict[str, Any]:
-    """Step 4: ATS breakdown, interview probability, and explainability (L6)."""
+    """Step 4: ATS breakdown, interview probability, explainability, and 30-day playbook."""
     resume = state["resume"]
     reqs = state["reqs"]
-    verification = verify_resume(resume, reqs)
+    resume_id = state.get("resume_id") or "saketh"
+    candidate = load_candidate(resume_id)
+    verification = verify_resume(resume, reqs, candidate=candidate)
     return {"verification": verification}
 
 
@@ -157,12 +176,16 @@ pipeline = build_pipeline()
 
 def run_pipeline(
     jd_text: str,
+    resume_id: Optional[str] = "saketh",
+    variant: Optional[str] = "balanced",
     company_override: Optional[str] = None,
     tone_override: Optional[str] = None,
 ) -> PipelineState:
     """Convenience runner for execution."""
     initial_state: PipelineState = {
         "jd_text": jd_text,
+        "resume_id": resume_id or "saketh",
+        "variant": variant or "balanced",
         "company_override": company_override,
         "tone_override": tone_override,
         "retry_count": 0,

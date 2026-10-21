@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Union
 import fitz  # PyMuPDF
 import re
 from statistics import median
@@ -22,11 +22,15 @@ class Span:
         return asdict(self)
 
 
-def extract_spans(pdf_path: str) -> List[Span]:
+def extract_spans(pdf_source: Union[str, bytes]) -> List[Span]:
     """
     Extract every text span from a PDF with full layout metadata.
+    Accepts either file path string or raw PDF bytes.
     """
-    doc = fitz.open(pdf_path)
+    if isinstance(pdf_source, (bytes, bytearray)):
+        doc = fitz.open(stream=pdf_source, filetype="pdf")
+    else:
+        doc = fitz.open(str(pdf_source))
     spans: List[Span] = []
 
     for page_no in range(len(doc)):

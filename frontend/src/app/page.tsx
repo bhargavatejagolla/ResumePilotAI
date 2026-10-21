@@ -6,7 +6,11 @@ import {
   generateResume,
   DeepHealthResponse,
   GenerateResponse,
+  ResumeHealthReport,
+  UploadResumeResponse,
 } from "@/lib/api";
+import { ResumeUploader } from "@/components/ResumeUploader";
+import { ResumeHealthCard } from "@/components/ResumeHealthCard";
 import { JDInput } from "@/components/JDInput";
 import { ResumePreview } from "@/components/ResumePreview";
 import { InterviewScore } from "@/components/InterviewScore";
@@ -18,6 +22,11 @@ export default function Home() {
   const [generating, setGenerating] = useState<boolean>(false);
   const [genResult, setGenResult] = useState<GenerateResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Active Resume Profile State (Multi-User Upgrade #1)
+  const [activeResumeId, setActiveResumeId] = useState<string>("saketh");
+  const [candidateName, setCandidateName] = useState<string>("Gunnam Sai Saketh Ram");
+  const [healthReport, setHealthReport] = useState<ResumeHealthReport | null>(null);
 
   useEffect(() => {
     getDeepHealth()
@@ -31,15 +40,35 @@ export default function Home() {
       });
   }, []);
 
+  const handleResumeUploaded = (data: UploadResumeResponse) => {
+    setActiveResumeId(data.resume_id);
+    setCandidateName(data.candidate?.personal?.name || "Uploaded Candidate");
+    setHealthReport(data.health_report);
+    setGenResult(null);
+  };
+
+  const handleSelectMaster = () => {
+    setActiveResumeId("saketh");
+    setCandidateName("Gunnam Sai Saketh Ram");
+    setHealthReport(null);
+  };
+
   const handleGenerate = async (
     jdText: string,
+    variant: string = "balanced",
     companyOverride?: string,
     toneOverride?: string,
   ) => {
     try {
       setGenerating(true);
       setError(null);
-      const res = await generateResume(jdText, companyOverride, toneOverride);
+      const res = await generateResume(
+        jdText,
+        activeResumeId,
+        variant,
+        companyOverride,
+        toneOverride,
+      );
       setGenResult(res);
     } catch (err: any) {
       console.error("Resume generation failed:", err);
@@ -51,8 +80,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col font-sans">
-      {/* Top Header */}
-      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm sticky top-0 z-20 px-6 py-3.5 flex justify-between items-center">
+      {/* Top Navigation */}
+      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm sticky top-0 z-20 px-6 py-3 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-xs">
             RP
@@ -63,11 +92,11 @@ export default function Home() {
                 ResumePilot AI
               </h1>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-semibold border border-blue-200 dark:border-blue-800">
-                v5.0 Enterprise Engine
+                v5.0 Multi-User Enterprise Engine
               </span>
             </div>
             <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-              Deterministic AI Resume Intelligence for Gunnam Sai Saketh Ram
+              Deterministic Resume Intelligence, Dynamic PDF Tailoring & 30-Day Interview Advisor
             </p>
           </div>
         </div>
@@ -85,19 +114,33 @@ export default function Home() {
             />
             <span className="text-[11px]">
               {loadingHealth
-                ? "Checking services..."
+                ? "Connecting..."
                 : health?.status === "ok"
-                ? `System Ready · Embeddings Active · Groq LLM Connected`
-                : "Backend Active (Local)"}
+                ? "Active · CPU Embeddings Loaded · Playwright Ready"
+                : "Backend Online"}
             </span>
           </div>
         </div>
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-[1550px] w-full mx-auto p-5 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Job Input + Metrics + Audit Log */}
-        <div className="lg:col-span-6 flex flex-col gap-6">
+      <main className="flex-1 max-w-[1600px] w-full mx-auto p-5 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column: Source Resume + Health Diagnostic + JD Input + Score Card */}
+        <div className="lg:col-span-6 flex flex-col gap-5">
+          <ResumeUploader
+            activeResumeId={activeResumeId}
+            candidateName={candidateName}
+            onUploaded={handleResumeUploaded}
+            onSelectMaster={handleSelectMaster}
+          />
+
+          {healthReport && (
+            <ResumeHealthCard
+              report={healthReport}
+              candidateName={candidateName}
+            />
+          )}
+
           <JDInput onGenerate={handleGenerate} loading={generating} />
 
           {error && (
@@ -123,13 +166,14 @@ export default function Home() {
           />
         </div>
 
-        {/* Right Column: PDF Preview / HTML / Interview Prep */}
+        {/* Right Column: PDF Preview / Web View / 30-Day Playbook / Prep */}
         <div className="lg:col-span-6 flex flex-col">
           <ResumePreview
             pdfBase64={genResult?.pdf_base64}
             htmlContent={genResult?.html}
             resumeData={genResult?.resume}
             talkingPoints={genResult?.verification?.explainability?.interview_talking_points}
+            playbook={genResult?.verification?.playbook}
           />
         </div>
       </main>
@@ -137,10 +181,10 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-zinc-200 dark:border-zinc-800 py-3.5 px-6 text-center text-xs text-zinc-500 dark:text-zinc-400 flex flex-wrap items-center justify-between">
         <span>
-          Candidate: <b>Gunnam Sai Saketh Ram</b> · B.Tech CSE (GITAM 2026) · Grand Champion ET GenAI Hackathon
+          Active Profile: <b>{candidateName}</b> ({activeResumeId}) · Single-User & Multi-Friend Architecture
         </span>
         <span className="font-mono text-[11px]">
-          Deterministic Pipeline · Pure Python Core · Zero Hallucination
+          Deterministic Core · Anti-Hallucination Guards · 1-Page Playwright Fit
         </span>
       </footer>
     </div>

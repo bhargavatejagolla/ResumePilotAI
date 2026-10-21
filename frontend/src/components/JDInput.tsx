@@ -3,7 +3,12 @@
 import { useState } from "react";
 
 interface JDInputProps {
-  onGenerate: (jdText: string, companyOverride?: string, toneOverride?: string) => void;
+  onGenerate: (
+    jdText: string,
+    variant?: string,
+    companyOverride?: string,
+    toneOverride?: string,
+  ) => void;
   loading: boolean;
 }
 
@@ -54,6 +59,7 @@ Looking for a relentless builder who moves fast:
 
 export function JDInput({ onGenerate, loading }: JDInputProps) {
   const [jdText, setJdText] = useState("");
+  const [variant, setVariant] = useState("balanced");
   const [companyOverride, setCompanyOverride] = useState("");
   const [toneOverride, setToneOverride] = useState("");
 
@@ -65,7 +71,7 @@ export function JDInput({ onGenerate, loading }: JDInputProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!jdText.trim()) return;
-    onGenerate(jdText, companyOverride || undefined, toneOverride || undefined);
+    onGenerate(jdText, variant, companyOverride || undefined, toneOverride || undefined);
   };
 
   return (
@@ -76,7 +82,7 @@ export function JDInput({ onGenerate, loading }: JDInputProps) {
             Target Job Description
           </h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            Paste any job posting or select a quick role preset
+            Paste target role or select a quick company preset
           </p>
         </div>
 
@@ -98,8 +104,50 @@ export function JDInput({ onGenerate, loading }: JDInputProps) {
         value={jdText}
         onChange={(e) => setJdText(e.target.value)}
         placeholder="Paste full job description, qualifications, and responsibilities here..."
-        className="w-full h-44 p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none leading-relaxed"
+        className="w-full h-40 p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none leading-relaxed"
       />
+
+      {/* Variant Selector (Upgrade #4) */}
+      <div className="flex items-center gap-2 p-2 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
+        <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 px-1">
+          Synthesis Strategy:
+        </span>
+        <div className="grid grid-cols-3 gap-1.5 flex-1">
+          <button
+            type="button"
+            onClick={() => setVariant("balanced")}
+            className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-colors ${
+              variant === "balanced"
+                ? "bg-white dark:bg-zinc-800 text-blue-600 dark:text-blue-400 shadow-xs border border-blue-200 dark:border-blue-900"
+                : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
+            }`}
+          >
+            ⚖ Balanced Fit
+          </button>
+          <button
+            type="button"
+            onClick={() => setVariant("aggressive")}
+            className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-colors ${
+              variant === "aggressive"
+                ? "bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 shadow-xs border border-emerald-200 dark:border-emerald-900"
+                : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
+            }`}
+          >
+            🔥 Aggressive (Max ATS)
+          </button>
+          <button
+            type="button"
+            onClick={() => setVariant("conservative")}
+            className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-colors ${
+              variant === "conservative"
+                ? "bg-white dark:bg-zinc-800 text-purple-600 dark:text-purple-400 shadow-xs border border-purple-200 dark:border-purple-900"
+                : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
+            }`}
+          >
+            🔬 Deep Tech / Systems
+          </button>
+        </div>
+      </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
         <div className="flex items-center gap-3">
@@ -127,7 +175,7 @@ export function JDInput({ onGenerate, loading }: JDInputProps) {
               onChange={(e) => setToneOverride(e.target.value)}
               className="px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none"
             >
-              <option value="">Default Style DNA</option>
+              <option value="">Default Tone</option>
               <option value="metric-heavy, quantitative">Metric-Dense & Numbers</option>
               <option value="engineering-first, technical">Deep Systems & Code</option>
               <option value="leadership, ownership">Execution & Leadership</option>
@@ -143,7 +191,7 @@ export function JDInput({ onGenerate, loading }: JDInputProps) {
           {loading ? (
             <>
               <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              <span>Synthesizing Tailored Resume...</span>
+              <span>Tailoring Resume & Computing ATS...</span>
             </>
           ) : (
             <>

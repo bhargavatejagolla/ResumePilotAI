@@ -45,8 +45,27 @@ class ExplainabilityReport(BaseModel):
     interview_talking_points: List[str] = Field(default_factory=list)
 
 
+class SprintWeek(BaseModel):
+    week_number: int
+    title: str
+    focus: str
+    action_items: List[str] = Field(default_factory=list)
+    deliverable: str
+
+
+class ImprovementPlaybook(BaseModel):
+    target_role: str
+    target_company: str
+    current_match_percentage: int
+    projected_match_percentage: int
+    missing_critical_skills: List[str] = Field(default_factory=list)
+    sprint_weeks: List[SprintWeek] = Field(default_factory=list)
+    advisor_summary: str
+
+
 class VerificationResult(BaseModel):
     ats: ATSScoreBreakdown
     interview_prob: InterviewProbability
     explainability: ExplainabilityReport
+    playbook: Optional[ImprovementPlaybook] = None
     passed_threshold: bool = True

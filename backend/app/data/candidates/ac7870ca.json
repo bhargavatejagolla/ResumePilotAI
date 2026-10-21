@@ -1,0 +1,131 @@
+{
+  "personal": {
+    "name": "Gunnam Sai Saketh Ram",
+    "email": "saisakethram.g@gmail.com",
+    "phone": "+91 7338421036",
+    "linkedin": "https://linkedin.com/in/contactsaketh",
+    "github": "https://github.com/Sak3th2004",
+    "location": "Bengaluru, India"
+  },
+  "summary": {
+    "summary": "Final-year Computer Science student (B.Tech, GITAM University, 2026) and  Grand Champion of the ET GenAI Hackathon 2026  \u2014 winner of the national 1st prize among 50,000+ participants. Builder of production-grade AI, full-stack, and event-driven systems using Python, Java, and modern AI frameworks (PyTorch, LangGraph, RAG). IEEE-published author and Oracle Cloud Infrastructure certified. Strong record of leading teams, shipping working prototypes, and translating research into impact.",
+    "source": "resume:summary"
+  },
+  "education": [
+    {
+      "institution": "University",
+      "degree": "B.Tech",
+      "field": "Computer Science and Engineering",
+      "start": "2022-09",
+      "end": "2026-07",
+      "gpa": "",
+      "location": "Bengaluru, India",
+      "source": "resume:education[0]"
+    }
+  ],
+  "experience": [
+    {
+      "id": "",
+      "company": "\u00ae Intel  Unnati Industrial Training Internship \u00ae Intel",
+      "title": "Software Engineering Intern",
+      "location": "Bengaluru, India",
+      "start": "2024-01",
+      "end": "2024-06",
+      "bullets": [
+        {
+          "text": "05/2025 \u2013 07/2025",
+          "metrics": 0,
+          "source": "resume:experience[0].bullets[0]"
+        },
+        {
+          "text": "Bengaluru, India",
+          "metrics": 0,
+          "source": "resume:experience[0].bullets[1]"
+        },
+        {
+          "text": "Led a team of 3 to build an AI Image Super-Resolution pipeline using PyTorch and TensorFlow on the DIV2K dataset, applying knowledge distillation from a teacher CNN to a 483K-parameter student model. \u2022 Achieved  92.7% SSIM and 28.5 dB PSNR  with real-time 1920\u00d71080 inference, balancing accuracy against latency and parameter count. \u2022 Owned the full delivery cycle \u2014 preprocessing, training, benchmarking, and stakeholder demos \u2014 in Agile sprints with Intel mentors. \u2022 Maintained reproducible experiments and full GitHub documentation for fast iteration on architecture and loss-function changes.",
+          "metrics": 5,
+          "source": "resume:experience[0].bullets[2]"
+        }
+      ],
+      "source": "resume:experience[0]"
+    }
+  ],
+  "projects": [
+    {
+      "id": "",
+      "name": "AgriBloom Agentic \u2014 AI Advisory for Indian Farmers    [ GitHub ]  \u2014 ET GenAI Hackathon 2026 Winning Project Python, PyTorch, EfficientNet-B4, LangGraph, Gemini Vision API, ChromaDB (RAG), Gradio",
+      "tech": [
+        "Python",
+        "SQL",
+        "Git"
+      ],
+      "award": "",
+      "links": {},
+      "bullets": [
+        {
+          "text": "Built a 5-agent LangGraph pipeline (Orchestrator  \u2192  Vision  \u2192  Knowledge  \u2192  Compliance  \u2192  Output) that takes a crop photo and returns disease diagnosis with treatment in 10 Indian languages. \u2022 Trained an EfficientNet-B4 classifier on 91,000+ images across 92 disease classes; added a Gemini Vision fallback for any crop outside the trained set. \u2022 Implemented a deterministic compliance engine that blocks 46 CIB&RC-banned pesticides and enforces FSSAI MRL limits, with a full audit trail per check. \u2022 Integrated an ICAR-grounded RAG knowledge base in ChromaDB for advisory retrieval, plus a fertilizer NPK calculator, KVK helpline finder, and voice/PDF report output.",
+          "metrics": 1,
+          "source": "resume:projects[0].bullets[0]"
+        },
+        {
+          "text": "ZKProofAPI \u2014 Zero-Knowledge Proof Authentication Platform    [ GitHub ] Python, FastAPI, PostgreSQL, Redis, Celery, React, Docker, secp256k1 Schnorr Proofs",
+          "metrics": 0,
+          "source": "resume:projects[0].bullets[1]"
+        },
+        {
+          "text": "Built a production-grade SaaS platform providing ZKP authentication via REST API \u2014 Schnorr proofs on secp256k1 with sub-5ms verification, no blockchain required. \u2022 Developed full-stack infrastructure: FastAPI backend with 8 SQLAlchemy models, React developer dashboard (11 pages), Celery for async batch processing, and JavaScript + Python SDKs for 3-line client integration. \u2022 Shipped with 37 passing tests, Alembic migrations, Docker Compose deployment (API + PostgreSQL + Redis + Celery), and CI/CD via GitHub Actions \u2014 basis for the IEEE conference publication.",
+          "metrics": 3,
+          "source": "resume:projects[0].bullets[2]"
+        },
+        {
+          "text": "AI-Enhanced Cloud Resource Optimizer    [ GitHub ] Java, Spring Boot, React, MongoDB, Docker, Pinecone",
+          "metrics": 0,
+          "source": "resume:projects[0].bullets[3]"
+        },
+        {
+          "text": "Engineered a hybrid forecasting engine (EMA + Linear Regression + LSTM-inspired) processing 10,000+ metrics, delivering 40% simulated cost reduction via intelligent auto-scaling. \u2022 Implemented Pinecone vector search with 8-dimensional workload embeddings and cosine similarity for workload pattern classification. \u2022 Shipped a full-stack platform with 10 RESTful APIs, real-time dashboard, and one-command Docker deployment.",
+          "metrics": 2,
+          "source": "resume:projects[0].bullets[4]"
+        }
+      ],
+      "source": "resume:projects[0]"
+    }
+  ],
+  "skills": {
+    "languages": [
+      "Python",
+      "Java",
+      "C++",
+      "SQL"
+    ],
+    "ai_ml": [
+      "Machine Learning",
+      "PyTorch",
+      "Data Analysis"
+    ],
+    "backend": [
+      "REST APIs",
+      "FastAPI",
+      "Database Design"
+    ],
+    "devops": [
+      "Docker",
+      "Git",
+      "Linux"
+    ]
+  },
+  "achievements": [
+    {
+      "title": "Academic & Project Excellence",
+      "category": "academic",
+      "description": "Built high-impact systems and engineering prototypes.",
+      "metrics": [],
+      "links": [],
+      "source": "resume:achievements[0]"
+    }
+  ],
+  "certifications": [],
+  "_resume_id": "ac7870ca",
+  "_updated_at": 1792584019.739382
+}

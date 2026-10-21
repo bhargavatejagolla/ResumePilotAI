@@ -1,7 +1,8 @@
-"""L2 — Candidate Knowledge Base.
+"""L2 — Candidate Knowledge Base (Multi-Resume Isolated).
 
-Loads candidate.json, embeds every entity, and stores them in Chroma
-with structured metadata for filtered semantic search.
+Loads candidate.json (or candidate_{resume_id}.json), embeds every entity,
+and stores them in Chroma with structured metadata (including resume_id)
+for completely isolated multi-user semantic search.
 """
 import json
 import re
@@ -9,6 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from app.config import get_settings
+from app.layers.l1_storage import load_candidate as storage_load_candidate
 from app.schemas.candidate import Candidate
 from app.services.embedding_service import embed
 from app.services.chroma_service import get_collection, reset_collection
@@ -98,7 +100,7 @@ def _skill_metadata(skill: str, category: str) -> dict:
 def _achievement_metadata(a: dict, idx: int) -> dict:
     return {
         "type": T_ACHIEVEMENT,
-        "id": a.get("id", f"ach_{idx}"),
+        "index": idx,
         "title": a.get("title", ""),
     }
 
@@ -106,35 +108,35 @@ def _achievement_metadata(a: dict, idx: int) -> dict:
 def _cert_metadata(c: dict, idx: int) -> dict:
     return {
         "type": T_CERT,
-        "id": c.get("id", f"cert_{idx}"),
+        "index": idx,
         "name": c.get("name", ""),
     }
 
 
-def load_candidate() -> Candidate:
-    """Load and validate candidate.json from Phase 1."""
-    path = Path(settings.candidate_json_path)
-    if not path.exists():
-        raise FileNotFoundError(
-            f"candidate.json not found at {path}. Run Phase 1 first."
-        )
-    raw = json.loads(path.read_text(encoding="utf-8"))
-    return Candidate(**raw)
+def load_candidate(resume_id: str = "saketh") -> Candidate:
+    """Load and validate candidate profile by resume_id."""
+    return storage_load_candidate(resume_id)
 
 
-def build_index(force_rebuild: bool = False) -> int:
+def build_index(
+    candidate: Optional[Candidate] = None,
+    resume_id: str = "saketh",
+    force_rebuild: bool = False,
+) -> int:
     """
-    Embed every entity in candidate.json and store in Chroma.
-
-    Returns the number of entities indexed.
-    Idempotent: safe to call on every startup.
+    Embed every entity for the given candidate and store in Chroma with resume_id metadata.
+    Idempotent and isolated per resume_id.
     """
-    candidate = load_candidate()
+    if candidate is None:
+        candidate = load_candidate(resume_id)
 
     collection = reset_collection() if force_rebuild else get_collection()
 
-    if not force_rebuild and collection.count() > 0:
-        return collection.count()
+    # If not forcing rebuild, check if this resume_id is already indexed
+    if not force_rebuild:
+        existing = collection.get(where={"resume_id": resume_id})
+        if existing and existing.get("ids") and len(existing["ids"]) > 0:
+            return len(existing["ids"])
 
     ids: List[str] = []
     texts: List[str] = []
@@ -144,40 +146,50 @@ def build_index(force_rebuild: bool = False) -> int:
     for idx, p in enumerate(candidate.projects):
         p_dict = p.model_dump()
         pid = p.name.lower().replace(" ", "_")[:40] or f"proj_{idx}"
-        ids.append(f"proj::{pid}")
+        ids.append(f"{resume_id}::proj::{pid}")
         texts.append(_project_text(p_dict))
-        metadatas.append(_project_metadata(p_dict))
+        meta = _project_metadata(p_dict)
+        meta["resume_id"] = resume_id
+        metadatas.append(meta)
 
     # --- Experience ---
     for idx, e in enumerate(candidate.experience):
         e_dict = e.model_dump()
         eid = f"{e.company}_{e.title}".lower().replace(" ", "_")[:40] or f"exp_{idx}"
-        ids.append(f"exp::{eid}")
+        ids.append(f"{resume_id}::exp::{eid}")
         texts.append(_experience_text(e_dict))
-        metadatas.append(_experience_metadata(e_dict))
+        meta = _experience_metadata(e_dict)
+        meta["resume_id"] = resume_id
+        metadatas.append(meta)
 
-    # --- Skills (grouped by category) ---
+    # --- Skills ---
     for category, skills in candidate.skills.items():
         if isinstance(skills, list):
             for skill in skills:
                 sid = f"{category}::{skill.lower().replace(' ', '_')}"
-                ids.append(f"skill::{sid}")
+                ids.append(f"{resume_id}::skill::{sid}")
                 texts.append(_skill_text(skill))
-                metadatas.append(_skill_metadata(skill, category))
+                meta = _skill_metadata(skill, category)
+                meta["resume_id"] = resume_id
+                metadatas.append(meta)
 
     # --- Achievements ---
     for idx, a in enumerate(candidate.achievements):
         a_dict = a.model_dump() if hasattr(a, "model_dump") else a
-        ids.append(f"ach::{idx}")
+        ids.append(f"{resume_id}::ach::{idx}")
         texts.append(_achievement_text(a_dict))
-        metadatas.append(_achievement_metadata(a_dict, idx))
+        meta = _achievement_metadata(a_dict, idx)
+        meta["resume_id"] = resume_id
+        metadatas.append(meta)
 
     # --- Certifications ---
     for idx, c in enumerate(candidate.certifications):
         c_dict = c.model_dump() if hasattr(c, "model_dump") else c
-        ids.append(f"cert::{idx}")
+        ids.append(f"{resume_id}::cert::{idx}")
         texts.append(_cert_text(c_dict))
-        metadatas.append(_cert_metadata(c_dict, idx))
+        meta = _cert_metadata(c_dict, idx)
+        meta["resume_id"] = resume_id
+        metadatas.append(meta)
 
     if not ids:
         return 0
@@ -196,21 +208,33 @@ def build_index(force_rebuild: bool = False) -> int:
     return len(ids)
 
 
+def _build_where_clause(resume_id: Optional[str], type_filter: Optional[str]) -> Optional[dict]:
+    """Helper to build Chroma where clause with optional resume_id and type_filter."""
+    conditions = []
+    if resume_id:
+        conditions.append({"resume_id": resume_id})
+    if type_filter:
+        conditions.append({"type": type_filter})
+
+    if len(conditions) == 2:
+        return {"$and": conditions}
+    elif len(conditions) == 1:
+        return conditions[0]
+    return None
+
+
 def search(
     query: str,
     *,
+    resume_id: Optional[str] = "saketh",
     type_filter: Optional[str] = None,
     top_k: int = 5,
 ) -> List[Dict[str, Any]]:
-    """
-    Semantic search over the candidate knowledge base.
-    """
+    """Semantic search over the candidate knowledge base filtered by resume_id."""
     collection = get_collection()
     query_vec = embed([query])[0]
+    where = _build_where_clause(resume_id, type_filter)
 
-    where = {"type": type_filter} if type_filter else None
-
-    # Protect against asking for more results than collection size
     count = collection.count()
     if count == 0:
         return []
@@ -244,26 +268,24 @@ def search(
 def search_multi(
     queries: List[str],
     *,
+    resume_id: Optional[str] = "saketh",
     type_filter: Optional[str] = None,
     top_k: int = 3,
 ) -> Dict[str, List[Dict[str, Any]]]:
     """Run multiple queries and return {query: hits}."""
-    return {q: search(q, type_filter=type_filter, top_k=top_k) for q in queries}
+    return {q: search(q, resume_id=resume_id, type_filter=type_filter, top_k=top_k) for q in queries}
 
 
 def search_by_embedding(
     embedding: list[float],
     *,
+    resume_id: Optional[str] = "saketh",
     type_filter: Optional[str] = None,
     top_k: int = 20,
 ) -> list[dict]:
-    """Query the collection using a pre-computed embedding.
-
-    Used by Phase 4 to score every project / experience against
-    reqs.jd_embedding WITHOUT re-embedding the JD.
-    """
+    """Query the collection using a pre-computed embedding filtered by resume_id."""
     collection = get_collection()
-    where = {"type": type_filter} if type_filter else None
+    where = _build_where_clause(resume_id, type_filter)
 
     count = collection.count()
     if count == 0:
@@ -292,4 +314,3 @@ def search_by_embedding(
             "metadata": metas[i] if i < len(metas) else {},
         })
     return hits
-
