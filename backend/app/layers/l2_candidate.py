@@ -249,3 +249,47 @@ def search_multi(
 ) -> Dict[str, List[Dict[str, Any]]]:
     """Run multiple queries and return {query: hits}."""
     return {q: search(q, type_filter=type_filter, top_k=top_k) for q in queries}
+
+
+def search_by_embedding(
+    embedding: list[float],
+    *,
+    type_filter: Optional[str] = None,
+    top_k: int = 20,
+) -> list[dict]:
+    """Query the collection using a pre-computed embedding.
+
+    Used by Phase 4 to score every project / experience against
+    reqs.jd_embedding WITHOUT re-embedding the JD.
+    """
+    collection = get_collection()
+    where = {"type": type_filter} if type_filter else None
+
+    count = collection.count()
+    if count == 0:
+        return []
+    actual_k = min(top_k, count)
+
+    results = collection.query(
+        query_embeddings=[embedding],
+        n_results=actual_k,
+        where=where,
+        include=["metadatas", "documents", "distances"],
+    )
+
+    hits = []
+    ids = results.get("ids", [[]])[0]
+    metas = results.get("metadatas", [[]])[0]
+    docs = results.get("documents", [[]])[0]
+    dists = results.get("distances", [[]])[0]
+
+    for i, doc_id in enumerate(ids):
+        sim = 1.0 - dists[i] if i < len(dists) else 0.0
+        hits.append({
+            "id": doc_id,
+            "score": round(sim, 4),
+            "text": docs[i] if i < len(docs) else "",
+            "metadata": metas[i] if i < len(metas) else {},
+        })
+    return hits
+
