@@ -1,3 +1,9 @@
+# ResumePilot AI (v5.0 Master Engine)
+
+> **Deterministic, Zero-Hallucination AI Resume Intelligence & Tailoring Engine.**  
+> Custom-tailored specifically for **Gunnam Sai Saketh Ram** (GITAM University, Grand Champion ET GenAI Hackathon 2026, IEEE 1st author).
+
+---
 
 ## 🎯 Architecture Philosophy
 
